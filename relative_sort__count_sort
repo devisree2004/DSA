@@ -1,0 +1,65 @@
+//relative sort leetcode:1122 count sort method
+
+
+
+//brute force 
+class Solution {
+public:
+    vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+    int m=arr2.size();
+    vector<int> r;
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<arr1.size();j++)
+        {
+            
+            if(arr2[i]==arr1[j])
+            {
+                r.push_back(arr2[i]);
+                arr1.erase(arr1.begin()+j);
+                j--;
+            }
+            
+        }
+    }
+    sort(arr1.begin(),arr1.end());
+    int n=arr1.size();
+    for(int k=0;k<n;k++)
+    {
+        r.push_back(arr1[k]);
+    }
+    return r;
+    }
+};
+
+//count sort 
+class Solution {
+public:
+    vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+        int count[1001] = {0}; // frequency array
+
+        // Step 1: Count frequency of each number in arr1
+        for (int num : arr1)
+            count[num]++;
+
+        vector<int> result;
+
+        // Step 2: Add elements in arr2 order
+        for (int num : arr2) {
+            while (count[num] > 0) {
+                result.push_back(num);
+                count[num]--;
+            }
+        }
+
+        // Step 3: Add remaining elements in sorted order
+        for (int i = 0; i <= 1000; i++) {
+            while (count[i] > 0) {
+                result.push_back(i);
+                count[i]--;
+            }
+        }
+
+        return result;
+    }
+};
